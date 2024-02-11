@@ -92,6 +92,15 @@ export const calculateStreakByHabitSetting = async ({
   return calculateWeeklyStreak(logList, weeklyGoal, findMaxValue);
 };
 
+export const getLogById = async (habitId: string, logId: string) => {
+  const firestore = getFirestore();
+  const logCall = await firestore
+    .collection(`${habitCollection}/${habitId}/${logCollection}`)
+    .doc(logId);
+  const result = await logCall.get();
+  return HabitLogFirestoreMapper.fromFireStore(result);
+};
+
 // Map Date from Number to server timestamp in UTC Format
 export const dateNumberToTimestamp = (dateInNumber: number) =>
   Timestamp.fromDate(toStartOfUTC(new Date(dateInNumber)));

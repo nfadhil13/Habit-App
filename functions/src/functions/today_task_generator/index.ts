@@ -7,6 +7,7 @@ import { HabitModel, isDailyHabit } from "../../types/habit/Habit";
 import HabitFirestoreMapper from "../../firestore_mapper/habit/mapper/habit_mapper";
 import PromisePool from "@supercharge/promise-pool";
 import HabitLogFirestoreMapper from "../../firestore_mapper/habit/mapper/habit_log";
+import { updateStreak } from "../calculate_streak";
 const habitCollection = FirestoreCollections.habit.key;
 const logCollection = FirestoreCollections.habit.subCollections.log.key;
 
@@ -14,6 +15,7 @@ const logCollection = FirestoreCollections.habit.subCollections.log.key;
 export const todayTaskGenerator = () =>
   onSchedule(
     {
+      region: "europe-west1",
       schedule: "every day 00:00",
       timeZone: "UTC",
     },
@@ -34,14 +36,15 @@ export const todayTaskGenerator = () =>
           const newLog = createNewLogByHabit(habit, tomorrow);
           if (newLog == undefined) return;
           await updateLogAndHabit(habit.id, newLog);
+          await updateStreak(habit.id);
         });
     },
   );
 
 const updateLogAndHabit = async (habitId: string, newLog: HabitLogModel) => {
   const firestore = getFirestore();
-  const ref = firestore.collection(habitCollection).doc(habitId).collection(logCollection);
-  await ref.add(HabitLogFirestoreMapper.toFirestore(newLog, ref.id));
+  const ref = firestore.collection(habitCollection).doc(habitId).collection(logCollection).doc();
+  await ref.create(HabitLogFirestoreMapper.toFirestore(newLog, ref.id));
 };
 
 /**

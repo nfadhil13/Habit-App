@@ -1,6 +1,6 @@
-import TrackingType from "./TrackingType";
-import Day from "../day";
 import { HabitHistoryModel } from "./HabitHistory";
+import Day from "../day";
+import TrackingType from "./TrackingType";
 
 interface HabitModel {
   id: string;

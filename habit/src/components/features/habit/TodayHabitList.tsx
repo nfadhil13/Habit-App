@@ -16,6 +16,7 @@ export default function TodayHabitList({
     <>
       {items.map((value, index) => (
         <div key={value.habit.id} className={`${index == 0 ? "" : "mt-5"}`}>
+          <div>{value?.todayLog?.id}</div>
           <HabitItem
             onActionClicked={onActionClicked}
             habit={value.habit}

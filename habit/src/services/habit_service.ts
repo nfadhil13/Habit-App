@@ -1,16 +1,8 @@
 "server side";
 
-import Day from "@/models/day";
-import {
-  DailyHabitModel,
-  HabitModel,
-  WeeklyHabitModel,
-} from "@/models/habit/Habit";
+import { HabitModel } from "@/models/habit/Habit";
 import NewHabitFormModel from "@/models/habit/NewHabit";
-import TodayHabitModel, {
-  DailyTodayHabitModel,
-  WeeklyTodayHabitModel,
-} from "@/models/habit/TodayHabit";
+import TodayHabitModel from "@/models/habit/TodayHabit";
 import ToggleHabitModel from "@/models/habit/ToogleHabit";
 import TrackingType, { TrackingTypeHelper } from "@/models/habit/TrackingType";
 import FirestoreHabitDTS from "@/utils/firebase/firestore/habit/source";
